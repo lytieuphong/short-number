@@ -1,6 +1,6 @@
 {
   "name": "@lytieuphong/short-number",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/lytieuphong/short-number.git",
@@ -10,8 +10,7 @@
   "scripts": {
     "build": "tsc",
     "test": "jest --config=jest.config.json",
-    "prepublish": "npm test",
-    "publish": "yarn publish --access public"
+    "prepublish": "npm test"
   },
   "files": [
     "dist"
