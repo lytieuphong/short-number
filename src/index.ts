@@ -1,4 +1,4 @@
-export const formatShortNumber = (num: number): string | number => {
+export const ShortNumber = (num: number): string | number => {
     
   if (typeof num !== 'number') {
     throw new TypeError('Expected a number');
