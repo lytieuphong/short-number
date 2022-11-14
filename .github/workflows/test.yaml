@@ -1,0 +1,19 @@
+name: Test
+on:
+  main:
+    types: [push]
+jobs:
+  test:
+    name: "Test"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: "Checkout"
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v3
+        name: "Use Node 16.x"
+        with:
+          node-version: "16.x"
+      - run: yarn
+      - run: yarn build
+      - run: yarn test
