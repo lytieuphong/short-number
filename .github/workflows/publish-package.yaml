@@ -55,7 +55,7 @@ jobs:
           registry-url: "https://registry.npmjs.org"
           scope: "@lytieuphong"
       - run: yarn
-      - run: yarn publish --access public
+      - run: yarn publish $(ls *.tgz) --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   publish-github-package:
