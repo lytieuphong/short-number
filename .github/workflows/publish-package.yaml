@@ -22,7 +22,7 @@ jobs:
       #env:
       #NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   package:
-    need: [build]
+    needs: [build]
     name: "Create Package"
     runs-on: ubuntu-latest
     steps:
@@ -42,7 +42,7 @@ jobs:
           name: package
           path: "*.tgz"
   publish-to-npm:
-    need: [package]
+    needs: [package]
     name: "Publish to npmjs packages"
     runs-on: ubuntu-latest
     steps:
@@ -59,7 +59,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   publish-github-package:
-    need: [package]
+    needs: [package]
     name: "Publish to Github Packages"
     runs-on: ubuntu-latest
     steps:
