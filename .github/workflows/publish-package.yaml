@@ -1,0 +1,78 @@
+name: Publish Package
+on:
+  release:
+    types: [created]
+jobs:
+  build:
+    name: "Build"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: "Checkout"
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v3
+        name: "Use Node 16.x"
+        with:
+          node-version: "16.x"
+          #registry-url: "https://registry.npmjs.org"
+          # Defaults to the user or organization that owns the workflow file
+          #scope: "@lytieuphong"
+      - run: yarn
+      #- run: yarn publish --access public
+      #env:
+      #NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  package:
+    need: [build]
+    name: "Create Package"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: "Checkout"
+      - uses: actions/setup-node@v3
+        name: "Use Node 16.x"
+        with:
+          node-version: "16.x"
+          #registry-url: "https://registry.npmjs.org"
+          #scope: "@lytieuphong"
+      - run: yarn
+      - run: yarn pack
+      - name: Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: package
+          path: "*.tgz"
+  publish-to-npm:
+    need: [package]
+    name: "Publish to npmjs packages"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: "Checkout"
+      - uses: actions/setup-node@v3
+        name: "Use Node 16.x"
+        with:
+          node-version: "16.x"
+          registry-url: "https://registry.npmjs.org"
+          scope: "@lytieuphong"
+      - run: yarn
+      - run: yarn publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  publish-github-package:
+    need: [package]
+    name: "Publish to Github Packages"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Upload
+        uses: actions/download-artifact@v3
+        with:
+          name: package
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          registry-url: https://npm.pkg.github.com/
+          scope: "@lylientieu"
+      - run: echo "registry=https://npm.pkg.github.com/@lylientieu" >> .npmrc
+      - run: npm publish $(ls *.tgz)
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
