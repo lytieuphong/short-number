@@ -1,6 +1,6 @@
 {
   "name": "@lytieuphong/short-number",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/lytieuphong/short-number.git",
@@ -12,6 +12,9 @@
     "test": "jest --config=jest.config.json",
     "prepublish": "npm test"
   },
+  "files": [
+    "dist"
+  ],
   "prepare": "yarn build",
   "devDependencies": {
     "@types/jest": "^29.2.2",

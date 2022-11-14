@@ -46,6 +46,10 @@ jobs:
     name: "Publish to npmjs packages"
     runs-on: ubuntu-latest
     steps:
+      - name: Upload
+        uses: actions/download-artifact@v3
+        with:
+          name: package
       - uses: actions/checkout@v3
         name: "Checkout"
       - uses: actions/setup-node@v3
@@ -55,6 +59,7 @@ jobs:
           registry-url: "https://registry.npmjs.org"
           scope: "@lytieuphong"
       - run: yarn
+      - run: yarn build
       - run: yarn publish $(ls *.tgz) --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -73,6 +78,8 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: "@lylientieu"
       - run: echo "registry=https://npm.pkg.github.com" >> .npmrc
-      - run: npm publish $(ls *.tgz)
+      - run: yarn
+      - run: yarn build
+      - run: yarn publish $(ls *.tgz)
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
