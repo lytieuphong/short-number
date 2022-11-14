@@ -18,6 +18,7 @@ jobs:
           # Defaults to the user or organization that owns the workflow file
           #scope: "@lytieuphong"
       - run: yarn
+      - run: yarn build
       #- run: yarn publish --access public
       #env:
       #NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -34,7 +35,6 @@ jobs:
           node-version: "16.x"
           #registry-url: "https://registry.npmjs.org"
           #scope: "@lytieuphong"
-      - run: yarn
       - run: yarn pack
       - name: Upload
         uses: actions/upload-artifact@v3
